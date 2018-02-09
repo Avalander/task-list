@@ -22,6 +22,7 @@ module.exports = ({ base_dir, folders }) => merge(common_config({ base_dir, fol
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
+		new webpack.SourceMapDevToolPlugin(),
 	],
 	devServer: {
 		contentBase: folders.dist,

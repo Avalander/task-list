@@ -2,7 +2,7 @@
 	display: flex;
 }
 
-#sidebar {
+.sidebar {
 	min-width: 250px;
 	max-width: 250px;
 	height: 100vh;
@@ -14,6 +14,11 @@
 	background-color: #7386d5;
 	color: #fff;
 	transition: all 0.3s;
+
+	ul.components {
+		padding: 20px 0;
+		border-bottom: 1px solid #47748b;
+	}
 }
 
 .sidebar-header {
@@ -21,22 +26,16 @@
 	background: #6d7fcc;
 }
 
-#sidebar ul.components {
-	padding: 20px 0;
-	border-bottom: 1px solid #47748b;
-}
-
-#sidebar.active {
+.sidebar.active {
 	margin-left: -250px;
 }
 
-#sidebar ul li a {
-	padding: 10px;
-	font-size: 1.1em;
-	display: block;
-}
-
-#sidebar {
+.sidebar {
+	ul li a {
+		padding: 10px;
+		font-size: 1.1em;
+		display: block;
+	}
 	button, button:focus {
 		background: inherit;
 		border: none;
@@ -57,10 +56,10 @@
 }
 
 @media (max-width: 768px) {
-	#sidebar {
+	.sidebar {
 		margin-left: -250px;
 	}
-	#sidebar.active {
+	.sidebar.active {
 		margin-left: 0;
 	}
 }
@@ -84,7 +83,7 @@
 	z-index: 998;
 }
 
-#dismiss {
+.dismiss {
 	width: 35px;
 	height: 35px;
 	position: absolute;

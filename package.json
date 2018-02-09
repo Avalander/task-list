@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@cycle/dom": "^20.1.0",
+    "@cycle/isolate": "^3.2.0",
     "@cycle/run": "^4.1.0",
     "xstream": "^11.2.0"
   }
