@@ -3,4 +3,26 @@
 $fa-font-path: '../node_modules/font-awesome/fonts';
 @import '~font-awesome/scss/font-awesome';
 
+@import 'sass/variables';
 @import 'sidebar';
+
+
+#content {
+	padding: 20px;
+}
+
+body {
+	background-color: #ebfaeb;
+}
+
+@media (max-width: 768px) {
+	[data-show="large"] {
+		display: none;
+	}
+}
+
+@media (min-width: 769px) {
+	[data-show="small"] {
+		display: none;
+	}
+}

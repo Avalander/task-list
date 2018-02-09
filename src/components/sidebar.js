@@ -22,21 +22,20 @@ const state = {
 const view = state$ => state$
 	.map(({ active, overlay }) => div([
 		nav('.sidebar', { class: { active }}, [
-			button('.dismiss', { dataset: { toggle: 'sidebar' }}, i('.fa.fa-arrow-left')),
+			button('.dismiss', { dataset: { show: 'small' }}, i('.fa.fa-arrow-left')),
 			div('.sidebar-header', h3('Ponies')),
 			ul('.list-unstyled.list-group.components', [
 				li('.active', a('Home')),
-				li(a('Ponyville')),
-				li(a('Canterlot')),
-				li(a('Manehattan')),
+				li(a({ props: { href: '#' }}, 'Ponyville')),
+				li(a({ props: { href: '#' }}, 'Canterlot')),
+				li(a({ props: { href: '#' }}, 'Manehattan')),
 			])
 		]),
 		div('.overlay', { class: { invisible: !overlay, appear: active, disappear: !active }}),
 	]))
 
-//const makeSidebar = sources => isolate(({ DOM }) => {
-const makeSidebar = ({ DOM }) => {
-	const show$ = DOM.select('.toggle-sidebar').events('click')
+const makeSidebar = sources => isolate(({ DOM, open$ }) => {
+	const show$ = open$
 		.mapTo(state.show)
 
 	const hide$ = xs.merge(
@@ -53,7 +52,6 @@ const makeSidebar = ({ DOM }) => {
 	return {
 		DOM: view(state$)
 	}
-}
-//)(sources)
+})(sources)
 
 export default makeSidebar

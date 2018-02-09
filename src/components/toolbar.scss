@@ -1,0 +1,36 @@
+@import 'sass/variables';
+
+.toolbar {
+	height: 60px;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	background-color: $primary;
+	color: #fff;
+	font-size: 32px;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 2px 4px rgba(6, 17, 6, 0.4);
+
+	.toolbar-item {
+		padding-left: 20px;
+	}
+
+	button, button:focus {
+		background: inherit;
+		color: inherit;
+		border: none;
+	}
+}
+
+#content {
+	margin-top: 60px;
+}
+
+@media (min-width: 769px) {
+	.toolbar {
+		margin-left: 240px;
+	}
+}
