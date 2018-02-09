@@ -96,10 +96,15 @@
 	from { opacity: 0; }
 }
 
-.invisible {
-	display: none;
-}
-
 .appear {
 	animation: fade-in 0.5s;
+}
+
+.disappear {
+	opacity: 0;
+	transition: all 0.5s;
+}
+
+.invisible {
+	display: none;
 }

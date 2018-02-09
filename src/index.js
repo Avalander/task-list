@@ -17,20 +17,32 @@ import {
     i,
 } from '@cycle/dom'
 
+
+const state_reducers = {
+	'show': (acc, x) => ({ active: true, overlay: true }),
+	'hide': (acc, x) => ({ active: false, overlay: true }),
+	'remove-overlay': (acc, x) => ({ active: false, overlay: false }),
+}
+
 const main = sources => {
-	const toggle$ = sources.DOM.select('.toggle-sidebar').events('click')
-		.mapTo(true)
-		//.fold((acc, x) => !acc, false)
-	const disable$ = xs.merge(
+	const show$ = sources.DOM.select('.toggle-sidebar').events('click')
+		.mapTo('show')
+
+	const hide$ = xs.merge(
 		sources.DOM.select('#dismiss').events('click'),
 		sources.DOM.select('.overlay.appear').events('click'))
-		.mapTo(false)
+		.mapTo('hide')
 	
+	const remove_overlay$ = sources.DOM.select('.overlay.disappear').events('transitionend')
+		.mapTo('remove-overlay')
+	
+	const state$ = xs.merge(show$, hide$, remove_overlay$)
+		.fold((acc, x) => state_reducers[x](acc, x), { active: false, overlay: false })
+
 	const sinks = {
-		DOM: xs.merge(toggle$, disable$)
-			.startWith(false)
-			.map(x => div('.wrapper', [
-				nav('#sidebar', { class: { active: x }}, [
+		DOM: state$
+			.map(({ active, overlay }) => div('.wrapper', [
+				nav('#sidebar', { class: { active }}, [
 					button('#dismiss', { dataset: { toggle: 'sidebar' }}, i('.fa.fa-arrow-left')),
 					div('.sidebar-header', h3('Ponies')),
 					ul('.list-unstyled.list-group.components', [
@@ -55,7 +67,7 @@ const main = sources => {
 						p('Etiam sed arcu euismod, tincidunt massa ut, ornare arcu. Etiam volutpat, nunc sit amet tristique condimentum, ligula massa rutrum urna, sed mattis lorem lorem vitae ex. Duis pretium a neque vel laoreet. Donec id felis placerat, pellentesque orci ac, elementum tortor. Nullam egestas odio eget eleifend lobortis. Nulla auctor aliquam odio, ut placerat ligula fermentum nec. Nullam ornare ut elit luctus egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id scelerisque massa. Aenean aliquam tempor nisl et euismod. Pellentesque feugiat viverra nunc, eu pulvinar ligula efficitur nec. Maecenas aliquet neque id augue commodo blandit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc tincidunt consectetur ligula. Nulla ut eros et dui facilisis iaculis. Sed fringilla auctor sapien vel sodales.'),
 					])
 				]),
-				div('.overlay', { class: { invisible: !x, appear: x }}),
+				div('.overlay', { class: { invisible: !overlay, appear: active, disappear: !active }}),
 			]))
 	}
 	return sinks

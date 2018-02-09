@@ -20,7 +20,10 @@ module.exports = ({ base_dir, folders }) => ({
 						targets: {
 							browsers: [ 'last 2 versions' ],
 						}
-					}]]
+					}]],
+					plugins: [
+						['transform-object-rest-spread', { useBuiltIns: true }]
+					]
 				},
 			}
 		}, {
