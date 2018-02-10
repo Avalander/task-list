@@ -6,10 +6,3 @@
 	color: desaturate(darken($background, 30%), 30%);
 	text-align: center;
 }
-
-.vertical {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	min-height: 80vh;
-}
