@@ -46,6 +46,9 @@ const app = sources => {
 	const view_title$ = view$.filter(x => 'title$' in x)
 		.map(x => x.title$)
 		.flatten()
+	const view_idb$ = view$.filter(x => 'IDB' in x)
+		.map(x => x.IDB)
+		.flatten()
 	const title$ = xs.merge(route_title$, view_title$)
 
 	const toolbar = makeToolbar({...sources, text$: title$})
@@ -57,6 +60,7 @@ const app = sources => {
 
 	return {
 		DOM: view(sidebar.DOM, toolbar.DOM, view$.map(x => x.DOM).flatten()),
+		IDB: view_idb$,
 		router: route$,
 	}
 }
