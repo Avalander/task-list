@@ -1,12 +1,16 @@
 const path = require('path')
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ServiceWorkerPlugin = require('serviceworker-webpack-plugin')
 
 const merge = require('webpack-merge')
 const common_config = require('./common')
 
 
 module.exports = ({ base_dir, folders }) => merge(common_config({ base_dir, folders }), {
+	entry: {
+		sw: path.resolve(base_dir, folders.src, 'init-sw.js'),
+	},
 	module: {
 		rules: [{
 			test: /\.scss/,
@@ -25,6 +29,9 @@ module.exports = ({ base_dir, folders }) => merge(common_config({ base_dir, fol
 		new ExtractTextPlugin({
 			filename: 'style.css',
 			allChunks: true,
-		})
+		}),
+		new ServiceWorkerPlugin({
+			entry: path.resolve(base_dir, folders.src, 'sw', 'index.js')
+		}),
 	]
 })
