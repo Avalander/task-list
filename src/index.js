@@ -18,13 +18,11 @@ import makeSidebar from 'components/sidebar'
 import makeToolbar from 'components/toolbar'
 
 import makeCreateListView from 'views/create-list'
-import makeLoremIpsumView from 'views/lorem-ipsum'
 import makeTaskListView from 'views/task-list'
 
 
 const routes = {
 	'/create': [makeCreateListView, { title: 'Add List' }],
-	'/lorem': [makeLoremIpsumView, { title: 'Lorem Ipsum' }],
 	'/list': [makeTaskListView, { title: 'Task List' }],
 }
 

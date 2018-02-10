@@ -20,12 +20,16 @@ import {
 
 const scrollDown = () => window.scrollTo(0,document.body.scrollHeight)
 
+const taskToDom = ({ id, name }) => div('.row', { hook: { insert: scrollDown }}, [
+	span(name),
+	button('.btn.fa.fa-check', { dataset: { type: 'check', id }}),
+])
+
 const view = (tasks$, new_task_text$) => xs.combine(tasks$, new_task_text$)
 	.map(([tasks, text]) => [
-		div('.column', tasks.map(({ id, name }) => div('.row', { hook: { insert: scrollDown }}, [
-			span(name),
-			button('.btn.fa.fa-check', { dataset: { type: 'check', id }}),
-		]))),
+		div('.column', tasks.length > 0 ? tasks.map(taskToDom) : div('.row', [
+			span('.handwriting', 'Start adding tasks to the list!'),
+		])),
 		div('.bottom-bar', [
 			input('.new-task.dark', { props: { placeholder: 'Text', value: text }}),
 			button('.add-task.btn', i('.fa.fa-plus'))
