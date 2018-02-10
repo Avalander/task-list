@@ -45,6 +45,11 @@ export default /*sources => isolate(*/({ DOM }) => {
 	const tasks$ = add_task_click$.compose(sampleCombine(text_input$))
 		.map(([_, task]) => task)
 		.fold((acc, x) => ([...acc, x]), ponies)
+	
+	DOM.select('[data-type="check"]').events('click')
+		.addListener({
+			next: x => console.log(x)
+		})
 
 	return {
 		DOM: view(tasks$, new_task.text$),

@@ -10,6 +10,8 @@ import {
 	main,
 } from '@cycle/dom'
 
+import makeIdbDriver from 'cycle-idb'
+import * as db from 'database'
 import makeRouterDriver from 'drivers/router'
 
 import makeSidebar from 'components/sidebar'
@@ -62,6 +64,7 @@ const app = sources => {
 const drivers = {
 	DOM: makeDOMDriver('#root'),
 	router: makeRouterDriver(),
+	IDB: makeIdbDriver(db.name, db.version, db.upgrade)
 }
 
 run(app, drivers)
