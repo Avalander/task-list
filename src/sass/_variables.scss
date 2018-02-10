@@ -2,3 +2,8 @@ $primary: #2db92d;
 //$primary: #7386d5;
 $primary-highlight: darken($primary, 5%);
 //$primary-highlight: #6d7fcc;
+
+$background: #ebebad;
+$background-dark: desaturate(darken($background, 30%), 30%);
+
+$box-shadow-sm: 0 2px 4px rgba(6, 17, 6, 0.4);

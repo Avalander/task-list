@@ -13,12 +13,15 @@ import {
 import makeSidebar from 'components/sidebar'
 import makeToolbar from 'components/toolbar'
 
+import makeCreateListView from 'views/create-list'
 
-const view = (sidebar$, toolbar$) => xs.combine(sidebar$, toolbar$)
-	.map(([sidebar, toolbar]) => div('.wrapper', [
+
+const view = (sidebar$, toolbar$, create_list$) => xs.combine(sidebar$, toolbar$, create_list$)
+	.map(([sidebar, toolbar, create_list]) => div('.wrapper', [
 		sidebar,
 		toolbar,
-		main('#content', [
+		main('#content', create_list
+		/*[
 			div([
 				p('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id dolor id est viverra placerat. Ut pulvinar est eget est tristique, ut sollicitudin quam finibus. Sed tristique iaculis justo sed porttitor. Donec mollis libero ac sem viverra congue. Nulla pretium ac dolor egestas vehicula. Pellentesque interdum mollis libero, sit amet facilisis ipsum interdum a. Sed lacinia elementum odio, vitae molestie quam aliquam at. Fusce euismod nunc sapien, sed rutrum nisl vehicula at. Maecenas sed sem felis.'),
 				p('Etiam sagittis ut mi vitae cursus. Mauris sollicitudin congue tellus vel placerat. Ut nunc turpis, mattis vitae hendrerit sit amet, sagittis nec dui. Vestibulum blandit risus metus, at sollicitudin risus tincidunt id. Integer rhoncus tortor sed felis tempus pharetra. Cras auctor, metus et dictum scelerisque, magna sem aliquet urna, nec ornare nunc sapien quis dui. Mauris a scelerisque magna.'),
@@ -31,7 +34,8 @@ const view = (sidebar$, toolbar$) => xs.combine(sidebar$, toolbar$)
 				p('Cras feugiat massa metus, id maximus tellus mattis eu. Proin id augue lacinia, tempus diam vel, fermentum nisi. Vestibulum non metus ut tortor rutrum efficitur. Sed ac viverra velit. Sed vestibulum est at mollis volutpat. Morbi sed enim eu ex commodo ultrices a ac tellus. Donec nibh neque, volutpat a vehicula nec, dapibus et felis. Donec eleifend, neque vel fermentum luctus, felis quam maximus lectus, quis malesuada ligula neque hendrerit tellus. Quisque consequat tortor eget turpis placerat, mattis aliquet arcu lacinia. Aliquam quis ante eu augue ornare vehicula. Suspendisse eu hendrerit eros. Vestibulum pellentesque turpis sed dolor molestie accumsan vel in nunc. Quisque at justo sed magna tristique pharetra.'),
 				p('Etiam sed arcu euismod, tincidunt massa ut, ornare arcu. Etiam volutpat, nunc sit amet tristique condimentum, ligula massa rutrum urna, sed mattis lorem lorem vitae ex. Duis pretium a neque vel laoreet. Donec id felis placerat, pellentesque orci ac, elementum tortor. Nullam egestas odio eget eleifend lobortis. Nulla auctor aliquam odio, ut placerat ligula fermentum nec. Nullam ornare ut elit luctus egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id scelerisque massa. Aenean aliquam tempor nisl et euismod. Pellentesque feugiat viverra nunc, eu pulvinar ligula efficitur nec. Maecenas aliquet neque id augue commodo blandit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc tincidunt consectetur ligula. Nulla ut eros et dui facilisis iaculis. Sed fringilla auctor sapien vel sodales.'),
 			])
-		]),
+		]*/
+		),
 	]))
 
 const app = sources => {
@@ -39,8 +43,10 @@ const app = sources => {
 	const open$ = toolbar.open_sidebar$
 	const sidebar = makeSidebar({...sources, open$})
 
+	const create_list = makeCreateListView(sources)
+
 	const sinks = {
-		DOM: view(sidebar.DOM, toolbar.DOM),
+		DOM: view(sidebar.DOM, toolbar.DOM, create_list.DOM),
 	}
 	return sinks
 }

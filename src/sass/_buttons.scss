@@ -1,0 +1,25 @@
+.btn {
+	font-size: 1.5em;
+	padding: 10px 20px;
+	background: transparent;
+	border: none;
+	border-radius: 0;
+}
+
+.btn-primary {
+	background-color: $primary;
+	color: #fff;
+	box-shadow: $box-shadow-sm;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active {
+	background-color: darken($primary, 10%);
+	position: relative;
+	top: 2px;
+	transition: all 0.3s;
+}
+
+.btn-primary:hover {
+	background-color: lighten($primary, 10%);
+	transition: all 0.3s;
+}
