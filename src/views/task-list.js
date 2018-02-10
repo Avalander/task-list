@@ -29,5 +29,6 @@ const view = () => xs.of(div('.vertical', [
 export default sources => isolate(({ DOM }) => {
 	return {
 		DOM: view(),
+		title$: xs.of('Ponies'),
 	}
 })(sources)

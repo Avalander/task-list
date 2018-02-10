@@ -21,9 +21,9 @@ import makeTaskListView from 'views/task-list'
 
 
 const routes = {
-	'/create': makeCreateListView,
-	'/lorem': makeLoremIpsumView,
-	'/list': makeTaskListView,
+	'/create': [makeCreateListView, { title: 'Add List' }],
+	'/lorem': [makeLoremIpsumView, { title: 'Lorem Ipsum' }],
+	'/list': [makeTaskListView, { title: 'Task List' }],
 }
 
 const view = (sidebar$, toolbar$, view$) => xs.combine(sidebar$, toolbar$, view$)
@@ -34,15 +34,22 @@ const view = (sidebar$, toolbar$, view$) => xs.combine(sidebar$, toolbar$, view$
 	]))
 
 const app = sources => {
-	const toolbar = makeToolbar({...sources, text$: xs.of('Ponies')})
-	const open$ = toolbar.open_sidebar$
-	const sidebar = makeSidebar({...sources, open$})
+	const current_route$ = sources.router.define(routes)
+	const route_title$ = current_route$.map(({ options }) => options.title)
 
-	const view$ = sources.router.define(routes)
-		.map(({ path, view }) => view(sources))
+	const view$ = current_route$.map(({ path, view }) => view(sources))
 	const view_route$ = view$.filter(x => 'router' in x)
 		.map(x => x.router)
 		.flatten()
+	const view_title$ = view$.filter(x => 'title$' in x)
+		.map(x => x.title$)
+		.flatten()
+	const title$ = xs.merge(route_title$, view_title$)
+
+	const toolbar = makeToolbar({...sources, text$: title$})
+	const open$ = toolbar.open_sidebar$
+	const sidebar = makeSidebar({...sources, open$})
+
 	const route$ = xs.merge(view_route$, sidebar.router)
 		.startWith('/lorem')
 
