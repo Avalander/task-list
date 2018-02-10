@@ -65,7 +65,6 @@ const makeSidebar = sources => isolate(({ DOM, open$, items$, active_id$ }) => {
 	const create$ = DOM.select('[data-action="create"]').events('click')
 		.mapTo('/create')
 	const route$ = xs.merge(list_click$, create$)
-	active_id$.addListener({ next: x => console.log(x)})
 
 	return {
 		DOM: view(state$, items$, active_id$),
