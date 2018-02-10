@@ -39,7 +39,7 @@ const app = sources => {
 	const current_route$ = sources.router.define(routes)
 	const route_title$ = current_route$.map(({ options }) => options.title)
 
-	const view$ = current_route$.map(({ path, view }) => view(sources))
+	const view$ = current_route$.map(({ path, view, params }) => view({...sources, params$: xs.of(params) }))
 	const view_route$ = view$.filter(x => 'router' in x)
 		.map(x => x.router)
 		.flatten()
@@ -49,14 +49,18 @@ const app = sources => {
 	const view_idb$ = view$.filter(x => 'IDB' in x)
 		.map(x => x.IDB)
 		.flatten()
+	const current_route_id$ = current_route$
+		.map(({ params }) => params ? params.id : undefined)
 	const title$ = xs.merge(route_title$, view_title$)
+
+	const task_lists$ = sources.IDB.store('lists').getAll()
 
 	const toolbar = makeToolbar({...sources, text$: title$})
 	const open$ = toolbar.open_sidebar$
-	const sidebar = makeSidebar({...sources, open$})
+	const sidebar = makeSidebar({...sources, open$, items$: task_lists$, active_id$: current_route_id$})
 
 	const route$ = xs.merge(view_route$, sidebar.router)
-		.startWith('/list')
+		.startWith({ path: '/list', params: { id: 1 }})
 
 	return {
 		DOM: view(sidebar.DOM, toolbar.DOM, view$.map(x => x.DOM).flatten()),
