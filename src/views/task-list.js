@@ -38,7 +38,7 @@ export default /*sources => isolate(*/({ DOM, IDB, params$ }) => {
 		.flatten()
 	const list_name$ = list$.map(({ name }) => name)
 	const list_id$ = list$.map(({ id }) => id)
-	const tasks$ = list_id$.map(id => IDB.store('tasks').index('list_id').getAll())
+	const tasks$ = list_id$.map(id => IDB.store('tasks').index('list_id').getAll(id))
 		.flatten()
 
 	const new_task = {
