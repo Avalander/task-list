@@ -3,6 +3,11 @@ $primary: #2db92d;
 $primary-highlight: darken($primary, 5%);
 //$primary-highlight: #6d7fcc;
 
+$grey-100: #f8f9fa;
+$grey-200: #e9ecef;
+$grey-300: #dee2e6;
+$grey-400: #ced4da;
+
 $background: #ebebad;
 $background-dark: desaturate(darken($background, 30%), 30%);
 

@@ -51,7 +51,7 @@ const app = sources => {
 	const sidebar = makeSidebar({...sources, open$})
 
 	const route$ = xs.merge(view_route$, sidebar.router)
-		.startWith('/lorem')
+		.startWith('/list')
 
 	return {
 		DOM: view(sidebar.DOM, toolbar.DOM, view$.map(x => x.DOM).flatten()),
