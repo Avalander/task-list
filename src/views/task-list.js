@@ -12,19 +12,15 @@ import {
 } from '@cycle/dom'
 import isolate from '@cycle/isolate'
 
+import { $put } from 'cycle-idb'
 
-const ponies = [
-	'Twilight Sparkle',
-	'Fluttershy',
-	'Rainbow Dash',
-]
 
 const scrollDown = () => window.scrollTo(0,document.body.scrollHeight)
 
 const view = (tasks$, new_task_text$) => xs.combine(tasks$, new_task_text$)
 	.map(([tasks, text]) => [
-		div('.column', tasks.map(x => div('.row', { hook: { insert: scrollDown }}, [
-			span(x),
+		div('.column', tasks.map(({ name }) => div('.row', { hook: { insert: scrollDown }}, [
+			span(name),
 			button('.btn.fa.fa-check', { dataset: { type: 'check' }}),
 		]))),
 		div('.bottom-bar', [
@@ -38,17 +34,19 @@ export default /*sources => isolate(*/({ DOM, IDB, params$ }) => {
 		.map(ev => ev.target.value)
 	const add_task_click$ = DOM.select('.add-task').events('click')
 
-	const list_name$ = params$.map(({ id }) => IDB.store('lists').get(id))
+	const list$ = params$.map(({ id }) => IDB.store('lists').get(id))
 		.flatten()
-		.map(({ name }) => name)
+	const list_name$ = list$.map(({ name }) => name)
+	const list_id$ = list$.map(({ id }) => id)
+	const tasks$ = list_id$.map(id => IDB.store('tasks').index('list_id').getAll())
+		.flatten()
 
 	const new_task = {
 		text$: xs.merge(text_input$, add_task_click$.mapTo('')).startWith(''),
 	}
 
-	const tasks$ = add_task_click$.compose(sampleCombine(text_input$))
-		.map(([_, task]) => task)
-		.fold((acc, x) => ([...acc, x]), ponies)
+	const add_task$ = add_task_click$.compose(sampleCombine(xs.combine(text_input$, list_id$)))
+		.map(([_, [ name, list_id ]]) => $put('tasks', { list_id, name, created_on: Date.now() }))
 	
 	DOM.select('[data-type="check"]').events('click')
 		.addListener({
@@ -57,6 +55,7 @@ export default /*sources => isolate(*/({ DOM, IDB, params$ }) => {
 
 	return {
 		DOM: view(tasks$, new_task.text$),
+		IDB: add_task$,
 		title$: list_name$,
 	}
 }
