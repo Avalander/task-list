@@ -26,7 +26,7 @@ const view = state$ => state$
 	.map(({ active, overlay }) => div([
 		nav('.sidebar', { class: { active }}, [
 			div([
-				button('.dismiss', { dataset: { show: 'small' }}, i('.fa.fa-arrow-left')),
+				button('.dismiss', { dataset: { show: 'small', hide: true }}, i('.fa.fa-arrow-left')),
 				div('.sidebar-header', h3('Task Lists')),
 				ul('.list-unstyled.list-group.components', [
 					li('.active', a('Home')),
@@ -36,22 +36,28 @@ const view = state$ => state$
 				]),
 			]),
 			div('.sidebar-footer', [
-				a('.btn', [
+				a('.btn', { dataset: { action: 'create', hide: true }}, [
 					i('.fa.fa-plus'),
 					span('Add list'),
 				])
 			]),
 		]),
-		div('.overlay', { class: { invisible: !overlay, appear: active, disappear: !active }}),
+		div('.overlay', {
+			class: { invisible: !overlay, appear: active, disappear: !active },
+			dataset: { hide: true },
+		}),
 	]))
 
 const makeSidebar = sources => isolate(({ DOM, open$ }) => {
+	const link_click$ = DOM.select('a:not(.active)').events('click')
+		.map(ev => {
+			ev.preventDefault()
+			return ev
+		})
+	
 	const show$ = open$
 		.mapTo(state.show)
-
-	const hide$ = xs.merge(
-		DOM.select('.dismiss').events('click'),
-		DOM.select('.overlay.appear').events('click'))
+	const hide$ = xs.merge(DOM.select('[data-hide]').events('click'), link_click$)
 		.mapTo(state.hide)
 	
 	const remove_overlay$ = DOM.select('.overlay.disappear').events('transitionend')
@@ -59,9 +65,15 @@ const makeSidebar = sources => isolate(({ DOM, open$ }) => {
 	
 	const state$ = xs.merge(show$, hide$, remove_overlay$)
 		.startWith(state.remove_overlay)
+	
+	const list$ = link_click$.mapTo('/list')
+	const create$ = DOM.select('[data-action="create"]').events('click')
+		.mapTo('/create')
+	const route$ = xs.merge(list$, create$)
 
 	return {
-		DOM: view(state$)
+		DOM: view(state$),
+		router: route$,
 	}
 })(sources)
 
