@@ -1,5 +1,6 @@
 import xs from 'xstream'
 import sampleCombine from 'xstream/extra/sampleCombine'
+import delay from 'xstream/extra/delay'
 
 import {
 	div,
@@ -21,7 +22,7 @@ const view = ({ is_first_list$, name$ }) => xs.combine(is_first_list$, name$)
 		button('.btn.btn-primary', 'Save'),
 	]))
 
-const intent = DOM => {
+const intent = (DOM, IDB) => {
 	const input_value$ = DOM.select('input').events('input')
 		.map(ev => ev.target.value)
 	const save_click$ = DOM.select('button').events('click')
@@ -32,20 +33,30 @@ const intent = DOM => {
 		.map(([_, name]) => name)
 		.map(name => $put('lists', { name, created_on: Date.now() }))
 
+	const is_first_list$ = IDB.store('lists').count()
+		.map(x => x === 0)
+	const last_added$ = IDB.store('lists').getAll()
+		.map(x => x[x.length - 1])
+	const route$ = save_click$
+		.compose(delay(100))
+		.compose(sampleCombine(last_added$))
+		.map(([_, list]) => list)
+		.map(({ id }) => ({ path: '/list', params: { id }}))
+
 	return {
 		name$,
 		save_list$,
+		is_first_list$,
+		route$,
 	}
 }
 
 export default sources => isolate(({ DOM, IDB }) => {
-	const is_first_list$ = IDB.store('lists').count()
-		.map(x => x === 0)
-	
-	const intents = intent(DOM)
+	const intents = intent(DOM, IDB)
 
 	return {
-		DOM: view({...intents, is_first_list$}),
+		DOM: view(intents),
 		IDB: intents.save_list$,
+		router: intents.route$,
 	}
 })(sources)
