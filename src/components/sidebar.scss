@@ -1,3 +1,5 @@
+@import 'sass/variables';
+
 .wrapper {
 	display: flex;
 }
@@ -15,15 +17,24 @@
 	color: #fff;
 	transition: all 0.3s;
 
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
 	ul.components {
 		padding: 20px 0;
-		border-bottom: 1px solid #47748b;
 	}
 }
 
-.sidebar-header {
+.sidebar-header, .sidebar-footer {
 	padding: 20px;
 	background: $primary-highlight;
+}
+
+.sidebar-footer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .sidebar.active {

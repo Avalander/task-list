@@ -1,3 +1,5 @@
+import './sidebar.scss'
+
 import xs from 'xstream'
 
 import {
@@ -8,7 +10,8 @@ import {
 	li,
 	a,
 	button,
-    i,
+	i,
+	span,
 } from '@cycle/dom'
 import isolate from '@cycle/isolate'
 
@@ -22,14 +25,22 @@ const state = {
 const view = state$ => state$
 	.map(({ active, overlay }) => div([
 		nav('.sidebar', { class: { active }}, [
-			button('.dismiss', { dataset: { show: 'small' }}, i('.fa.fa-arrow-left')),
-			div('.sidebar-header', h3('Ponies')),
-			ul('.list-unstyled.list-group.components', [
-				li('.active', a('Home')),
-				li(a({ props: { href: '#' }}, 'Ponyville')),
-				li(a({ props: { href: '#' }}, 'Canterlot')),
-				li(a({ props: { href: '#' }}, 'Manehattan')),
-			])
+			div([
+				button('.dismiss', { dataset: { show: 'small' }}, i('.fa.fa-arrow-left')),
+				div('.sidebar-header', h3('Task Lists')),
+				ul('.list-unstyled.list-group.components', [
+					li('.active', a('Home')),
+					li(a({ props: { href: '#' }}, 'Ponyville')),
+					li(a({ props: { href: '#' }}, 'Canterlot')),
+					li(a({ props: { href: '#' }}, 'Manehattan')),
+				]),
+			]),
+			div('.sidebar-footer', [
+				a('.btn', [
+					i('.fa.fa-plus'),
+					span('Add list'),
+				])
+			]),
 		]),
 		div('.overlay', { class: { invisible: !overlay, appear: active, disappear: !active }}),
 	]))

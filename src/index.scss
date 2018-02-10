@@ -3,12 +3,10 @@
 $fa-font-path: '../node_modules/font-awesome/fonts';
 @import '~font-awesome/scss/font-awesome';
 
-@import url('https://fonts.googleapis.com/css?family=Caveat|Montserrat');
-
+@import 'sass/fonts';
 @import 'sass/variables';
 @import 'sass/forms';
 @import 'sass/buttons';
-@import 'sidebar';
 
 
 #content {
@@ -16,7 +14,6 @@ $fa-font-path: '../node_modules/font-awesome/fonts';
 }
 
 body {
-	//background-color: #ebfaeb;
 	background-color: $background;
 	font-family: 'Montserrat';
 }
