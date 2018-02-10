@@ -18,15 +18,18 @@ const ponies = [
 	'Fluttershy',
 	'Rainbow Dash',
 ]
+
+const scrollDown = () => window.scrollTo(0,document.body.scrollHeight)
+
 const view = (tasks$, new_task_text$) => xs.combine(tasks$, new_task_text$)
 	.map(([tasks, text]) => [
-		div('.column', tasks.map(x => div('.row', [
+		div('.column', tasks.map(x => div('.row', { hook: { insert: scrollDown }}, [
 			span(x),
-			input({ props: { type: 'checkbox' }}),
+			button('.btn.fa.fa-check', { dataset: { type: 'check' }}),
 		]))),
 		div('.bottom-bar', [
 			input('.new-task.dark', { props: { placeholder: 'Text', value: text }}),
-			button('.add-task', i('.fa.fa-plus'))
+			button('.add-task.btn', i('.fa.fa-plus'))
 		])
 	])
 

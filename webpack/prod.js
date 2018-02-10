@@ -3,7 +3,7 @@ const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const merge = require('webpack-merge')
-const common_config = require('./webpack.common')
+const common_config = require('./common')
 
 
 module.exports = ({ base_dir, folders }) => merge(common_config({ base_dir, folders }), {
@@ -18,7 +18,6 @@ module.exports = ({ base_dir, folders }) => merge(common_config({ base_dir, fol
 						includePaths: [ path.resolve(base_dir, folders.src) ],
 					},
 				}],
-				publicPath: 'dist',
 			})
 		}]
 	},

@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "rm -rf ./dist/",
+    "build": "webpack --env=prod",
+    "predist": "npm run build",
+    "dist": "zip -r tasklist.zip dist/",
     "dev": "webpack-dev-server --env=dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

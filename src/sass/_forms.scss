@@ -36,3 +36,9 @@ input.dark::placeholder {
 input.dark {
 	border-bottom-color: $grey-400;
 }
+
+@media (max-width: 768px) {
+	input {
+		min-width: 10px;
+	}
+}
