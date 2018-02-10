@@ -31,3 +31,10 @@ body {
 		display: none;
 	}
 }
+
+.handwriting {
+	font-family: 'Caveat';
+	font-size: 2.5em;
+	color: desaturate(darken($background, 30%), 30%);
+	text-align: center;
+}

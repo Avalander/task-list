@@ -33,10 +33,14 @@ const view = (tasks$, new_task_text$) => xs.combine(tasks$, new_task_text$)
 		])
 	])
 
-export default /*sources => isolate(*/({ DOM }) => {
+export default /*sources => isolate(*/({ DOM, IDB, params$ }) => {
 	const text_input$ = DOM.select('.new-task').events('input')
 		.map(ev => ev.target.value)
 	const add_task_click$ = DOM.select('.add-task').events('click')
+
+	const list_name$ = params$.map(({ id }) => IDB.store('lists').get(id))
+		.flatten()
+		.map(({ name }) => name)
 
 	const new_task = {
 		text$: xs.merge(text_input$, add_task_click$.mapTo('')).startWith(''),
@@ -53,7 +57,7 @@ export default /*sources => isolate(*/({ DOM }) => {
 
 	return {
 		DOM: view(tasks$, new_task.text$),
-		title$: xs.of('Ponies'),
+		title$: list_name$,
 	}
 }
 //)(sources)

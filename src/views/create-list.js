@@ -1,5 +1,3 @@
-import './create-list.scss'
-
 import xs from 'xstream'
 import sampleCombine from 'xstream/extra/sampleCombine'
 

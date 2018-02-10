@@ -49,7 +49,7 @@ const view = (state$, items$, active_id$) => xs.combine(state$, items$, active_i
 
 const makeSidebar = sources => isolate(({ DOM, open$, items$, active_id$ }) => {
 	const list_click$ = DOM.select('li:not(.active) a').events('click')
-		.map(ev => ({ path: '/list', params: { id: ev.target.dataset.id }}))
+		.map(ev => ({ path: '/list', params: { id: parseInt(ev.target.dataset.id) }}))
 	
 	const show$ = open$
 		.mapTo(state.show)

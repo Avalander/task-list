@@ -60,7 +60,8 @@ const app = sources => {
 	const sidebar = makeSidebar({...sources, open$, items$: task_lists$, active_id$: current_route_id$})
 
 	const route$ = xs.merge(view_route$, sidebar.router)
-		.startWith({ path: '/list', params: { id: 1 }})
+		.startWith('/create')
+		//.startWith({ path: '/create', params: { id: 1 }})
 
 	return {
 		DOM: view(sidebar.DOM, toolbar.DOM, view$.map(x => x.DOM).flatten()),
