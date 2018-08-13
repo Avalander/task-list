@@ -1,0 +1,42 @@
+{
+  "icons": [
+    {
+      "src": "icon_256x256.514f3be7372e63b28de5280759f92260.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_192x192.5ceaf3d9ac1a745d23a5005c37ac0827.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_128x128.ff9497dc2fad15468fcb7e8844aef6fb.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_96x96.0bcf5da6d4c4b2eaadebddf858e3d03b.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_72x72.7c9fa5230e47be39556947174ab33238.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "icon_48x48.b564c6d4dd8485ef3604f1f9fa5506a8.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }
+  ],
+  "name": "Task List",
+  "short_name": "Task List",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "Simple tast list by Avalander",
+  "background_color": "#2db92d",
+  "theme_color": "#2db92d"
+}
